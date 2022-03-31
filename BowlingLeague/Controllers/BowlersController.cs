@@ -92,10 +92,10 @@ namespace BowlingLeague.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("BowlerID,BowlerFirstName,BowlerLastName,BowlerMiddleInit,BowlerAddress,BowlerCity,BowlerState,BowlerZip,BowlerPhoneNumber,TeamID")] Bowlers bowlers)
         {
-            if (id != bowlers.BowlerID)
-            {
-                return NotFound();
-            }
+            //if (id != bowlers.BowlerID)
+            //{
+            //    return NotFound();
+            //}
 
             if (ModelState.IsValid)
             {
@@ -106,14 +106,14 @@ namespace BowlingLeague.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BowlersExists(bowlers.BowlerID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                //    if (!BowlersExists(bowlers.BowlerID))
+                //    {
+                //        return NotFound();
+                //    }
+                //    else
+                //    {
+                //        throw;
+                //    }
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -122,15 +122,20 @@ namespace BowlingLeague.Controllers
 
         // GET: Bowlers/Delete/5
         [HttpGet]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
             var bowlers = await _context.Bowlers
                 .FirstOrDefaultAsync(m => m.BowlerID == id);
+
+            //_context.Remove(bowlers);
+
+            //_context.SaveChanges();
+
             if (bowlers == null)
             {
                 return NotFound();
@@ -139,20 +144,33 @@ namespace BowlingLeague.Controllers
             return View(bowlers);
         }
 
-        // POST: Bowlers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [HttpPost]
+        public IActionResult Delete(Bowlers b)
         {
-            var bowlers = await _context.Bowlers.FindAsync(id);
-            _context.Bowlers.Remove(bowlers);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var bowler = _context.Bowlers
+               .FirstOrDefault(m => m.BowlerID == b.BowlerID);
+
+            _context.Remove(bowler);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
-        private bool BowlersExists(int id)
-        {
-            return _context.Bowlers.Any(e => e.BowlerID == id);
-        }
+
+        // POST: Bowlers/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var bowlers = await _context.Bowlers.FindAsync(id);
+        //    _context.Bowlers.Remove(bowlers);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+        //private bool BowlersExists(int id)
+        //{
+        //    return _context.Bowlers.Any(e => e.BowlerID == id);
+        //}
     }
 }

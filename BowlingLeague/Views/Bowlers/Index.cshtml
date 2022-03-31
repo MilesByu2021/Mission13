@@ -138,7 +138,7 @@
                         <a asp-action="Details" asp-route-id="@item.BowlerID" class="btn btn-info">Details</a>
                     </td>
                     <td>
-                        <a asp-action="Delete" asp-route-id="@item.BowlerID" class="btn btn-danger btn-sm">Delete</a>
+                        <a asp-controller="Bowlers" asp-action="Delete" asp-route-id="@item.BowlerID" class="btn btn-danger btn-sm">Delete</a>
                     </td>
                 </tr>
              }
